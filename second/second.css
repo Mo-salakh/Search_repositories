@@ -5,13 +5,13 @@ body {
     font-weight: 400;
     font-style: normal;
 }
-.posts_list {
+.repositories_list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.posts_item {
+.repositories_item {
     display: grid;
     grid-template-columns: 5fr .1fr;
 }

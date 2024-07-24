@@ -1,47 +1,37 @@
 let input = document.querySelector('#getPost');
-let repositoriesList = document.querySelector('.repositories_list') 
-
+let repositoriesList = document.querySelector('.repositories_list');
+let errorMessage = document.querySelector('.error-message');
 
 async function getPosts(api) {
-    let response = await fetch(`https://api.github.com/search/repositories?q=${api}`)
-    let repository = await response.json();
 
-    if (!response.ok) {
-        throw new Error('Сетевая ошибка');
+    if (!api) {
+        repositoriesList.innerHTML = '';
+        return;
     }
 
-    if(!api) {
-        throw new Error('поле пусто!')
-    }
+    try {
+        let response = await fetch(`https://api.github.com/search/repositories?q=${api}`);
+        let repository = await response.json();
 
-    let fiveRepositories = [];
-    for(let i = 0; i < 5; i++) {
-        if(i < repository.items.length) {
-            fiveRepositories.push(repository.items[i])
+        repositoriesList.innerHTML = '';
+
+        let fiveRepositories = [];
+        for (let i = 0; i < 5; i++) {
+            if (i < repository.items.length) {
+                fiveRepositories.push(repository.items[i]);
+            }
         }
-    }
-    console.log(fiveRepositories);
-    console.log(fiveRepositories[1].name);
-    for(let repository of fiveRepositories) {
-        let closeBtn = document.createElement('div');
-        closeBtn.classList.add('close_ic');
-        closeBtn.textContent = '[X]';
-        let repositoriesListItem = document.createElement('li');
-        repositoriesListItem.classList.add('repositories_item');
-        repositoriesListItem.insertAdjacentElement('beforeend',closeBtn )
-        let nameOfRepository = repository.name;
-        repositoriesListItem.textContent = nameOfRepository;
-        repositoriesList.appendChild(repositoriesListItem);
+
+        for (let repository of fiveRepositories) {
+            let repositoriesListItem = document.createElement('li');
+            repositoriesListItem.classList.add('repositories_item');
+            repositoriesListItem.textContent = repository.name;
+            repositoriesList.appendChild(repositoriesListItem);
+        }
+    } catch (error) {
+        console.error(error.message);
     }
 }
-
-
-
-
-
-
-
-
 
 function debounce(fun, delay = 500) {
     let timeout;
@@ -54,7 +44,7 @@ function debounce(fun, delay = 500) {
 
 input.addEventListener('input', event => {
     debounce(() => {
-        getPosts(event.target.value);
+        getPosts(event.target.value || null);
     })();
 });
 
