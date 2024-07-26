@@ -14,6 +14,23 @@ body {
 .repositories_item {
     display: grid;
     grid-template-columns: 5fr .1fr;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 10px;
+    transition: all .2s linear;
+}
+
+.repositories_item:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.repositories_item:hover {
+    background-color: #f4f1f1;
+    border-color: #fff;
+}
+
+.repository_info {
+    display: grid;
 }
 
 .close_ic {
@@ -24,7 +41,6 @@ body {
     height: 20px;
     align-items: center;
     justify-content: center;
-    background-color: red;
 }
 
 .container {
@@ -40,6 +56,12 @@ body {
 }
 
 input[type="text"] {
-    border-radius: 10px;
-    padding: 7px;
+    border-radius: 7px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    transition: background-color,border-color .3s linear ;
+}
+
+input[type="text"]:focus {
+    background-color: #f4f1f1;
 }
