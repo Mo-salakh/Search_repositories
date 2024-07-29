@@ -7,6 +7,7 @@ async function getPosts(api, cb1, cb2) {
         repositoriesList.innerHTML = '';
         return;
     }
+
     try {
         let response = await fetch(`https://api.github.com/search/repositories?q=${api}&per_page=5`);
         if (!response.ok) {
@@ -23,20 +24,20 @@ async function getPosts(api, cb1, cb2) {
 }
 
 async function searchResult(repositories) {
-    repositoriesList.innerHTML = '';
     for (let repo of repositories.items) {
         let repositoriesListItem = document.createElement('li');
         repositoriesListItem.classList.add('repositories_item');
         repositoriesListItem.textContent = repo.name;
         repositoriesListItem.addEventListener('click', () => {
             displayRepositoryInfo(repo);
+            repositoriesList.innerHTML = '';
+            input.value = '';
         });
         repositoriesList.appendChild(repositoriesListItem);
     }
 }
 
 function displayRepositoryInfo(repo) {
-
     let card = document.createElement('div');
     card.classList.add('card');
     let card_body = document.createElement('div');
